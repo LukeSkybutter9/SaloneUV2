@@ -12,10 +12,12 @@
     </div>
 </template>
 
-<script>
-    export default {
-        props: {
-        label: {
+<script setup>
+import { defineProps } from 'vue'
+
+const props = defineProps({  // eslint-disable-line no-unused-vars
+    salon: Object,
+    label:{
             type: String,
             required: true
         },
@@ -35,8 +37,7 @@
             type: String,
             required: true
         }
-        }
-    }
+})
 </script>
 
 <style scoped>
