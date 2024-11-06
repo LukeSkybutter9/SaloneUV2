@@ -1,49 +1,61 @@
 <template>
     <div class="login-container">
-        <form @submit.prevent="login">
-            <CampoForm v-model="email" tipo="email" placeholder="Correo electrónico"/>
-            <CampoForm v-model="password" tipo="password" placeholder="Contraseña"/>
-            <button @click="login">Login</button>
+        <form @submit.prevent="login($event)">
+            <CampoForm v-model="email" type="email" placeholder="Correo electrónico" name="email" />
+            <CampoForm v-model="password" type="password" placeholder="Contraseña" name="password"/>
+            <button type="submit" >Login</button>
         </form>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+        <p v-if="successMessage" class="success">{{ successMessage }}</p>
     </div>
 </template>
 
-<script setup lang="js">
+<script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
+//import { useRouter } from 'vue-router'
 import CampoForm from './CampoForm.vue'
 
-// Definiendo las propiedades reactivas
 const email = ref('')
 const password = ref('')
 const errorMessage = ref(null)
+const successMessage = ref(null)
 
-const login = async () => {
-    try {
-        const response = await axios.post('http://localhost:8081/api/auth/login', {
-        email: email.value,
-        password: password.value,
-        });
-        const token = response.data.token;
+//const router = useRouter(); 
 
-        // Guardar el token en localStorage
-        localStorage.setItem('token', token);
+    const login = async () => {
+        event.preventDefault();  // Prevent form default submission
+        console.log("Login function triggered"); 
+        try {
+            const response = await axios.post('http://localhost:8087/public/auth/login', {
+            email: email.value,
+            password: password.value,
+            });
 
-        // Redireccionar al dashboard o página principal
-        // Se puede usar el router directamente si está disponible
-        const router = useRouter(); 
-        router.push('/reservas');
-    } catch (error) {// eslint-disable-line no-unused-vars
-        errorMessage.value = 'Credenciales incorrectas. Por favor, inténtalo de nuevo.';
+            console.log(email.value, password.value);
+            
+            if (response.status === 200) {
+                successMessage.value = 'Login successful';
+                //router.push('../reservas');
+            }
+
+        } catch (error) { 
+            if (error.response && error.response.status === 401) {
+                errorMessage.value = 'Usuario o contraseña incorrectos';
+            } else {
+                errorMessage.value = 'Error en el servidor';
+            }
+        }
     }
-}
 </script>
 
 <style scoped>
 
 .error {
     color: red;
+}
+
+.succes{
+    color: green;
 }
 </style>

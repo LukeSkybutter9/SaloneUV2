@@ -6,14 +6,14 @@
             :placeholder="placeholder" 
             :id="name" 
             :value="modelValue" 
-            @input="$emit('update:modelValue', $event.target.value)" 
-            required
         />
     </div>
 </template>
 
 <script setup>
 import { defineProps } from 'vue'
+
+//@input="$emit('update:modelValue', $event.target.value)" 
 
 const props = defineProps({  // eslint-disable-line no-unused-vars
     salon: Object,
