@@ -13,17 +13,22 @@ import "../styles/tailwind.css"
     <title>Reservas SaloneU</title>
 </head>
 <body>
+    <script>
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+            }
+        };
+    </script>
     <div class="superContenedor bg-gray-200">
             <div class="contenedor ml-20">
                 <MenuLateral />
                 <div class="contenido pb-7">
                     <div class="menuArriba bg-white pt-10 pb-10 pl-10 flex flex-row justify-between">
                         <BreadCrumb client:load/>
-                        <div class="cerrarSesion mr-8">
-                            <button class="cerrarSesion font-semibold">Cerrar Sesión</button>
-                        </div>
                     </div>
-                    <h2 class="text-5xl pl-10 md:text-5xl lg:text-6xl mt-8 mb-10 font-bold text-gray-800">Reservas</h2>
+                    <h2 class="text-5xl pl-10 md:text-6xl lg:text-6xl mt-8 mb-10 font-bold text-gray-800">Reservas</h2>
                     <div class="salones mr-9 ml-11 pl-5 md:pl-11 lg:pl-15 xl:pl-12">
                         <div class="titTop items-baseline flex-row md:flex-col lg:flex-col">
                             <h1 class="mr-auto text-2xl md:text-3xl lg:text-4xl mt-10 mb-9 font-bold text-gray-800">Salones Disponibles</h1>

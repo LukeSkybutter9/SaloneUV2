@@ -1,20 +1,24 @@
 <template>
     <div class="login-container">
-        <form @submit.prevent="login($event)">
-            <CampoForm v-model="email" type="email" placeholder="Correo electrónico" name="email" />
-            <CampoForm v-model="password" type="password" placeholder="Contraseña" name="password"/>
+        <form @submit.prevent="handleLogin">
+            <div class="campoForm">
+            <label for="email">Nombre de usuario:</label>
+            <input type="text" v-model="email" required />
+            </div>
+            <div class="campoForm">
+            <label for="password">Contraseña:</label>
+            <input type="password" v-model="password" required />
+            </div>
             <button type="submit" >Login</button>
+            <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+            <p v-if="successMessage" class="success">{{ successMessage }}</p>
         </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-        <p v-if="successMessage" class="success">{{ successMessage }}</p>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-//import { useRouter } from 'vue-router'
-import CampoForm from './CampoForm.vue'
 
 const email = ref('')
 const password = ref('')
@@ -23,20 +27,19 @@ const successMessage = ref(null)
 
 //const router = useRouter(); 
 
-    const login = async () => {
-        event.preventDefault();  // Prevent form default submission
-        console.log("Login function triggered"); 
+    const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:8087/public/auth/login', {
             email: email.value,
             password: password.value,
             });
-
-            console.log(email.value, password.value);
             
-            if (response.status === 200) {
+            if (response) {
+                const token = response.data; 
+                localStorage.setItem('token', token);
+                console.log(token);
                 successMessage.value = 'Login successful';
-                //router.push('../reservas');
+                window.location.href= '/reservas';
             }
 
         } catch (error) { 
@@ -51,6 +54,36 @@ const successMessage = ref(null)
 
 <style scoped>
 
+.campoForm{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font: bold;
+    gap:5px;
+}
+
+.campoForm input{
+    margin-bottom: 15px;
+    border: #F0F0F0;
+    border-radius: 5px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    outline: none;
+}
+
+.campoForm input:focus {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+button{
+    padding: 10px 20px;
+    width: 100%;
+    border: none;
+    background-color: #004a87;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
 .error {
     color: red;
 }
