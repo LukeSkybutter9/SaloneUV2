@@ -1,0 +1,181 @@
+---
+import MenuLateral from "../components/astro/MenuLateral.astro";
+import BreadCrumb from "../components/vue/BreadCrumb.vue";
+import "../styles/tailwind.css";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas SaloneU</title>
+  </head>
+  <body>
+    <!-- <script>
+      window.onload = function () {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "/login";
+        }
+      };
+    </script> -->
+    <div class="superContenedor bg-gray-200">
+      <div class="contenedor ml-20">
+        <MenuLateral />
+        <div class="contenido pb-7">
+          <div
+            class="menuArriba bg-white pt-10 pb-10 pl-10 flex flex-row justify-between"
+          >
+            <BreadCrumb client:load />
+          </div>
+          <h2
+            class="text-5xl pl-10 md:text-6xl lg:text-6xl mt-8 mb-10 font-bold text-gray-800"
+          >
+            Historial de Reservas
+          </h2>
+          <div class="main mr-9 ml-11 pl-5 md:pl-11 lg:pl-15 xl:pl-12">
+            <div class="titTop items-baseline flex-row md:flex-col lg:flex-col">
+            </div>
+            <table class="tabla">
+              <thead>
+                <tr>
+                  <th>Salon</th>
+                  <th>Hora de entrada</th>
+                  <th>Hora de salida</th>
+                  <th>Estado de la reserva</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="fila_inpar">
+                  <td>Dato 1.1</td>
+                  <td>Dato 1.2</td>
+                  <td>Dato 1.3</td>
+                  <td>Dato 1.4</td>
+                </tr>
+                <tr class="fila_par">
+                  <td>Dato 2.1</td>
+                  <td>Dato 2.2</td>
+                  <td>Dato 2.3</td>
+                  <td>Dato 2.4</td>
+                </tr>
+                <tr class="fila_inpar">
+                  <td>Dato 3.1</td>
+                  <td>Dato 3.2</td>
+                  <td>Dato 3.3</td>
+                  <td>Dato 3.4</td>
+                </tr>
+                <tr class="fila_par">
+                  <td>Dato 4.1</td>
+                  <td>Dato 4.2</td>
+                  <td>Dato 4.3</td>
+                  <td>Dato 4.4</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<style scoped>
+  .contenido {
+    height: min(100vh);
+  }
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 20px 0px;
+  }
+
+  @media (max-width: 600px) {
+    .main {
+      margin: 0 auto;
+    }
+  }
+
+  .cerrarSesion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    width: 8rem;
+    height: 1.7rem;
+    background-color: #004a8731;
+    border: 1px solid #3c72dd;
+    color: #3c72dd;
+    border-radius: 3px;
+  }
+
+  .cerrarSesion:hover {
+    background-color: #0065b8;
+    border: 2px solid #0065b8;
+    color: #ffffff;
+  }
+
+  .menuArriba {
+    align-items: center;
+  }
+
+  .titTop {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: 2rem;
+  }
+
+  /* Estilo la tabla */
+
+  .tabla {
+    width: 95%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th,
+  td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+    width: 25%;
+  }
+
+  th {
+    background-color: #004a87;
+    color: white;
+    font-size: 1rem;
+  }
+
+  .fila_inpar {
+    background-color: #f9f9f9;
+  }
+
+  .fila_par {
+    background-color: #ffffff;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .salones table {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 0.9rem;
+    }
+
+    th,
+    td {
+      padding: 8px;
+    }
+  }
+</style>
