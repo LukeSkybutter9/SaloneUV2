@@ -1,5 +1,5 @@
 ---
-import '../../styles/tailwind.css'; 
+import '../../styles/tailwind.css';
 import reservaIcon from '../../assets/icons/reserva.svg';
 import usuarioIcon from '../../assets/icons/usuario.svg';
 import historialIcon from '../../assets/icons/historia.svg';
@@ -15,10 +15,10 @@ import historialIcon from '../../assets/icons/historia.svg';
     <div class="container h-screen w-16 md:w-20 lg:w-20 xl:w-20 text-center pt-14">  
         <div class="opciones">
             <div class="opCirculo">
-                <a href=""><img src={reservaIcon.src} alt="Reserva" width="30"></a>
+                <a href="/reservas"><img src={reservaIcon.src} alt="Reserva" width="30"></a>
             </div>
             <div class="opCirculo">
-                <a href=""><img src={historialIcon.src} alt="Historial" width="30"></a>
+                <a href="/historial"><img src={historialIcon.src} alt="Historial" width="30"></a>
             </div>
         </div>
         <div class="opcionCuenta">
@@ -31,7 +31,6 @@ import historialIcon from '../../assets/icons/historia.svg';
 </html>
 
 <style scoped>
-
 .container {
     position: fixed;
     top: 0;
@@ -67,6 +66,11 @@ import historialIcon from '../../assets/icons/historia.svg';
     height: 3.2em;
     cursor: pointer;
 }
+
+.opCirculo:hover{
+    box-shadow: inset 1px 1px 1px 1px #00103d9f;
+}
+
 
 .container img {
     filter: invert(1) brightness(2);

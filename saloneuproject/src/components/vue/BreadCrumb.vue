@@ -14,15 +14,13 @@
     import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus';
     import 'element-plus/dist/index.css'
 
-
-const logout = () => {
-    localStorage.removeItem('token') 
-    window.location.href= '/login';
-}
+    const logout = () => {
+        localStorage.removeItem('token') 
+        window.location.href= '/login';
+    }
 </script>
 
 <style scoped>
-
 .cerrarSesion{
     display: flex;
     justify-content: center;
@@ -30,9 +28,9 @@ const logout = () => {
     font-size: 0.8rem;
     width: 8rem;
     height: 1.7rem;
-    background-color: #004a8731;
-    border: 1px solid #3c72dd;
-    color: #3c72dd;
+    background-color: #004a8727;
+    border: 1px solid #409eff;
+    color: #409eff;
     border-radius: 3px;
 }
 
@@ -41,6 +39,4 @@ const logout = () => {
     border: 2px solid #0065b8;
     color: #ffffff;
 }
-
-
 </style>

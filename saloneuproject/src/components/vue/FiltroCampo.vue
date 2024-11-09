@@ -10,13 +10,12 @@
             >
                 <el-option 
                     v-for="option in uniqueEdificios" 
-                    :key="option.status"  
-                    :label="option.status" 
-                    :value="option.status" 
+                    :key="option.idEdificio"  
+                    :label="option.nombreEdificio" 
+                    :value="option.idEdificio" 
                 />
             </el-select>
         </el-form-item>
-
         <!-- Contenedor de las tarjetas de salones -->
         <div class="salones gap-16">
             <SalonCard 
@@ -37,13 +36,30 @@ import SalonCard from './SalonCard.vue'
 const salones = ref([])
 
 const formInline = ref({
-    region: 'Alive'
+    region: ''
 })
 
 onMounted(async () => {
     try {
-        const response = await axios.get('https://rickandmortyapi.com/api/character/?page=21')
-        salones.value = response.data.results
+        const response = await axios.get('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/salones')
+        salones.value = response.data.map(salon => {
+            // Asignar un nombre según el idEdificio
+            switch (salon.idEdificio) {
+                case 1:
+                    salon.nombreEdificio = "Sierra Nevada";
+                    break;
+                case 2:
+                    salon.nombreEdificio =  "Cienaga Grande";
+                    break;
+                case 3:
+                    salon.nombreEdificio = "Mar Caribe";
+                    break;
+                default:
+                    salon.nombreEdificio = "Edificio Desconocido";
+                    break;
+            }
+            return salon;
+        });
     } catch (error) {
         console.error("Error al obtener los salones:", error)
     }
@@ -51,10 +67,10 @@ onMounted(async () => {
 
 // Computed para obtener edificios únicos
 const uniqueEdificios = computed(() => {
-    const statusSet = new Set()
+    const idEficiosMap = new Map()
     return salones.value.filter((salon) => {
-        if (!statusSet.has(salon.status)) {
-            statusSet.add(salon.status)
+        if (!idEficiosMap.has(salon.idEdificio)) {
+            idEficiosMap.set(salon.idEdificio)
             return true
         }
         return false
@@ -64,7 +80,7 @@ const uniqueEdificios = computed(() => {
 // Computed para filtrar los salones según la región seleccionada en el select
 const filteredSalones = computed(() => {
     return formInline.value.region
-        ? salones.value.filter(salon => salon.status === formInline.value.region)
+        ? salones.value.filter(salon => salon.idEdificio === formInline.value.region)
         : salones.value
 })
 </script>
@@ -74,6 +90,4 @@ const filteredSalones = computed(() => {
     display: flex;
     flex-wrap: wrap;
 }
-
-
 </style>

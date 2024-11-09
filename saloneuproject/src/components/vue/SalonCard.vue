@@ -4,8 +4,8 @@
             <img src="https://www.unimagdalena.edu.co/Content/ArchivosPublicaciones/Publicacion_36919/documento_4_20190408161320.93.jpg" width="300">
         </div>
         <div class="nombreSalon mt-4 mb-16 md:mb-12 lg:mb-8">
-            <h2 class="tituloCarta font-bold">{{ salon.name }}</h2>
-            <p>{{ salon.status }}</p>
+            <h2 class="tituloCarta font-bold">{{ salon.nombreEdificio + '  ' + salon.nombre}}</h2>
+            <p>{{ salon.descripcion }}</p>
         </div>
         <el-button class="boton" type="success" plain>Reservar</el-button>
     </div>
@@ -32,7 +32,6 @@ onMounted( async ()=> {
 </script>
 
 <style scoped>
-
 .Tarjeta{
     display: flex;
     flex-direction: column;
@@ -69,5 +68,4 @@ onMounted( async ()=> {
     border: 2px solid #0065b8;
     color: #ffffff;
 }
-
 </style>
