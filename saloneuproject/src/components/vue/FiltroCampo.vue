@@ -22,12 +22,12 @@
                 v-for="salon in filteredSalones" 
                 :key="salon.id" 
                 :salon="salon"
-                @abrir-modal="abrirModal"
+                @abrirModal="abrirModal"
             />
         </div>
     </el-form>
 
-    <ModalReserva :abrirModal="mostrarModal" @cerrar-modal="mostrarModal = false"/>
+    <ModalReserva :abrirModal="mostrarModal" :salon="salonSeleccionado" @cerrar-modal="mostrarModal = false" />
 </template>
 
 <script setup>
@@ -37,8 +37,12 @@ import axios from 'axios'
 import SalonCard from './SalonCard.vue'
 import ModalReserva from './ModalReserva.vue'
 
+
+const salonSeleccionado = ref([]);
+
 const mostrarModal = ref(false);
-function abrirModal() {
+function abrirModal(salon) {
+    salonSeleccionado.value = salon;
     mostrarModal.value = true;
 }
 
