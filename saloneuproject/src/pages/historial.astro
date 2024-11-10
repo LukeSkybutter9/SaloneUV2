@@ -1,7 +1,7 @@
 ---
 import MenuLateral from "../components/astro/MenuLateral.astro";
 import BreadCrumb from "../components/vue/BreadCrumb.vue";
-import Tabla from "../components/vue/Historial.vue";
+import Tabla from "../components/vue/HistorialTable.vue";
 import "../styles/tailwind.css";
 ---
 
@@ -22,26 +22,18 @@ import "../styles/tailwind.css";
         };
         </script> -->
         <div class="superContenedor bg-gray-200">
-        <div class="contenedor ml-20">
-            <MenuLateral />
-            <div class="contenido pb-7">
-            <div
-                class="menuArriba bg-white pt-10 pb-10 pl-10 flex flex-row justify-between"
-            >
-                <BreadCrumb client:load />
-            </div>
-            <h2
-                class="text-5xl pl-10 md:text-6xl lg:text-6xl mt-8 mb-10 font-bold text-gray-800"
-            >
-                Historial de Reservas
-            </h2>
-            <div class="main mr-9 ml-11 pl-5 md:pl-11 lg:pl-15 xl:pl-12">
-                <div class="titTop items-baseline flex-row md:flex-col lg:flex-col">
-                </div>
-                    <Tabla client:load/>
+            <div class="contenedor ml-20">
+                <MenuLateral />
+                <div class="contenido pb-7">
+                    <div class="menuArriba bg-white pt-10 pb-10 pl-10 flex flex-row justify-between" >
+                        <BreadCrumb client:load />
+                    </div>
+                        <h2 class="text-5xl pl-10 md:text-6xl lg:text-6xl mt-8 mb-10 font-bold text-gray-800" >Historial de Reservas</h2>
+                    <div class="main mr-9 ml-11 pl-5 md:pl-11 lg:pl-15 xl:pl-12">
+                        <Tabla client:load/>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </body>
 </html>

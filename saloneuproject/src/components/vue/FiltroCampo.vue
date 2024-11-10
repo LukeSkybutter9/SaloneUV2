@@ -21,10 +21,13 @@
             <SalonCard 
                 v-for="salon in filteredSalones" 
                 :key="salon.id" 
-                :salon="salon" 
+                :salon="salon"
+                @abrir-modal="abrirModal"
             />
         </div>
     </el-form>
+
+    <ModalReserva :abrirModal="mostrarModal" @cerrar-modal="mostrarModal = false"/>
 </template>
 
 <script setup>
@@ -32,6 +35,12 @@ import { ref, onMounted, computed } from 'vue'
 import { ElForm,ElFormItem,ElSelect,ElOption } from 'element-plus'
 import axios from 'axios'
 import SalonCard from './SalonCard.vue'
+import ModalReserva from './ModalReserva.vue'
+
+const mostrarModal = ref(false);
+function abrirModal() {
+    mostrarModal.value = true;
+}
 
 const salones = ref([])
 
@@ -43,7 +52,6 @@ onMounted(async () => {
     try {
         const response = await axios.get('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/salones')
         salones.value = response.data.map(salon => {
-            // Asignar un nombre según el idEdificio
             switch (salon.idEdificio) {
                 case 1:
                     salon.nombreEdificio = "Sierra Nevada";
@@ -64,6 +72,26 @@ onMounted(async () => {
         console.error("Error al obtener los salones:", error)
     }
 })
+
+//Función async que espera la llamada desde componente salonCard con un emit que envía el salón seleccionado a reservar
+async function reservarSalon(salon) {  // eslint-disable-line no-unused-vars
+    const payload = {
+        idSalon: salon.id,
+        fecha: new Date().toISOString(), // Fecha actual en formato ISO
+    };
+    try {
+        // Realiza la solicitud POST al backend para reservar el salón
+        const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', payload);
+
+        if(response){
+            console.log("Reserva Realizada con Exito!");
+        }
+
+    } catch (error) {
+        console.error('Error al realizar la reserva:', error);
+    }
+}
+
 
 // Computed para obtener edificios únicos
 const uniqueEdificios = computed(() => {

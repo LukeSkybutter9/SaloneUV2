@@ -7,28 +7,24 @@
             <h2 class="tituloCarta font-bold">{{ salon.nombreEdificio + '  ' + salon.nombre}}</h2>
             <p>{{ salon.descripcion }}</p>
         </div>
-        <el-button class="boton" type="success" plain>Reservar</el-button>
+        <el-button class="boton" type="success" @click="abrirModal" plain>Reservar</el-button>
     </div>
 </template>
 
 <script setup>
-import { defineProps, onMounted } from 'vue'
-//import axios from 'axios';
+import { defineProps } from 'vue'
 import { ElButton } from 'element-plus'
 import 'element-plus/dist/index.css'
 
-const props = defineProps({ // eslint-disable-line no-unused-vars
+const props = defineProps({
     salon: Object,
 })
 
-onMounted( async ()=> {
-        try{
-            console.log('haciendo el post');
-        }catch(error){
-            console.error(error)
-        }
+const emit = defineEmits(['abrirModal']);
+    function abrirModal() {
+        emit('abrirModal', props.salon);
     }
-)
+
 </script>
 
 <style scoped>
