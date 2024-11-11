@@ -1,22 +1,32 @@
 <template>
-    <el-dialog :dialogTableVisible="dialogTableVisible" v-model="dialogTableVisible" title="Disponibilidades" width="800" @close="cerrarModal">
-            <p>Salon Seleccionado - {{ salon?.nombreEdificio +" "+ salon?.nombre }}</p>
-            
-        <template #footer>  
-            <div class="dialog-footer">
-                <el-button @click="cerrarModal">Cancel</el-button>
-                <el-button type="primary" @click="cerrarModal">
-                    Reservar
-                </el-button>
-            </div>
+    <el-dialog :visible="dialogTableVisible" v-model="dialogTableVisible" title="Disponibilidades" width="800px" @close="cerrarModal">
+        <p>Salón Seleccionado - {{ salon.nombreEdificio + " " + salon.nombre }}</p>
+        <!-- Lista de disponibilidades -->
+        <el-table :data="disponibilidades" style="width: 100%">
+            <el-table-column prop="horaInicio" label="Hora de Inicio" width="150"></el-table-column>
+            <el-table-column prop="horaFin" label="Hora de Fin" width="150"></el-table-column>
+            <el-table-column label="Acciones" width="150">
+                <template #default="scope">
+                    <el-button 
+                        type="primary" 
+                        @click="reservar(scope.row)">
+                        Reservar
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <template #footer>
+        <div class="dialog-footer">
+            <el-button @click="cerrarModal">Cancelar</el-button>
+        </div>
         </template>
     </el-dialog>
 </template>
 
 <script lang="ts" setup>
-    import { ref , watch, defineEmits, onUpdated} from 'vue'
+    import { ref , watch, defineEmits} from 'vue'
     import axios from 'axios';
-    import { ElButton, ElDialog} from 'element-plus';
+    import { ElButton, ElDialog, ElTable, ElTableColumn} from 'element-plus';
     
     const dialogTableVisible = ref(false);
     const emit = defineEmits(['cerrar-modal']);
@@ -27,33 +37,79 @@
             type: Object,
             required: true
         }
-        
     });
-
-    const salonId = props.salon.idSalon; 
-
-    console.log("Salon "+salonId);
 
     const disponibilidades = ref([]);
 
-onUpdated(async () => {
+    function obtenerFechaHoy() {
+    const hoy = new Date();
+    
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');  // Mes en formato 2 dígitos
+    const dia = String(hoy.getDate()).padStart(2, '0');  // Día en formato 2 dígitos
+    
+    return `${año}-${mes}-${dia}`;
+    }
+
+const obtenerDisponibilidad = async () => {
     try {
-        const response = await axios.get('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/disponibilidad-salones/${salonId}');
-        disponibilidades.value = response.data;
+        if (props.salon && props.salon.id){
+            const disponibilidad = {
+                salonId: props.salon.id,
+                fecha: obtenerFechaHoy()
+            }
+            console.log('disponibilidad ', disponibilidad); 
+            const response = await axios.post("https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/disponibilidad-salones/disponibles-para-reserva", disponibilidad);
+            disponibilidades.value = Array.isArray(response.data) ? response.data : [response.data] //Asegurandonos que llegue como array
+            //console.log('Disponibilidades recibidas:', disponibilidades.value); 
+        }else{
+            console.log('El id del salon no esta disponible');
+        }        
     } catch (error) {
         console.error("Error al obtener las disponibilidades:", error)
     }
     
-})
+}
+
+async function reservar(disponibilidad) {
+    const reserva = {
+        idUsuario: 1, 
+        idSalon: props.salon.id,
+        fecha: new Date().toISOString(),
+        idDisponibilidad: disponibilidad.id
+    }
+
+    console.log("Datos de reserva:", reserva);
+    try {
+        const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', reserva)
+        console.log("Reserva realizada con éxito:", response.data)
+        cerrarModal()
+    } catch (error) {
+        console.error("Error al realizar la reserva:", error);
+    if (error.response && error.response.data) {
+        console.error("Detalles del error del servidor:", error.response.data);
+    }
+    }
+}
 
 watch(() => props.abrirModal, (newValue) => {
     dialogTableVisible.value = newValue;
+    if (newValue){
+        obtenerDisponibilidad(); // Realizar la solicitud cuando se abre el modal
+    }
 });
 
-// Emite el evento para indicar que la modal se ha cerrado
 function cerrarModal() {
     dialogTableVisible.value = false;
     emit('cerrar-modal');
 }
 
 </script>
+
+<style scoped>
+.dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+</style>

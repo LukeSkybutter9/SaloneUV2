@@ -84,7 +84,6 @@ async function reservarSalon(salon) {  // eslint-disable-line no-unused-vars
         fecha: new Date().toISOString(), // Fecha actual en formato ISO
     };
     try {
-        // Realiza la solicitud POST al backend para reservar el salón
         const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', payload);
 
         if(response){
