@@ -77,25 +77,6 @@ onMounted(async () => {
     }
 })
 
-//Función async que espera la llamada desde componente salonCard con un emit que envía el salón seleccionado a reservar
-async function reservarSalon(salon) {  // eslint-disable-line no-unused-vars
-    const payload = {
-        idSalon: salon.id,
-        fecha: new Date().toISOString(), // Fecha actual en formato ISO
-    };
-    try {
-        const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', payload);
-
-        if(response){
-            console.log("Reserva Realizada con Exito!");
-        }
-
-    } catch (error) {
-        console.error('Error al realizar la reserva:', error);
-    }
-}
-
-
 // Computed para obtener edificios únicos
 const uniqueEdificios = computed(() => {
     const idEficiosMap = new Map()

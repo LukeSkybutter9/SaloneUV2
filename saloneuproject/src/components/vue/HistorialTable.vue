@@ -2,37 +2,50 @@
   <table class="tabla">
     <thead>
       <tr>
-        <th>Salon</th>
+        <th>Fecha</th>
         <th>Hora de entrada</th>
         <th>Hora de salida</th>
         <th>Estado de la reserva</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(fila, index) in filas" :key="index" :class="index % 2 === 0 ? 'fila_inpar' : 'fila_par'">
-        <td>{{ fila.salon }}</td>
-        <td>{{ fila.horaEntrada }}</td>
-        <td>{{ fila.horaSalida }}</td>
-        <td>{{ fila.estadoReserva }}</td>
+      <tr v-for="(reserva, index) in reservas" :key="index" :class="index % 2 === 0 ? 'fila_inpar' : 'fila_par'">
+        <td>{{ reserva.fecha }}</td>
+        <td>{{ reserva.horaInicio }}</td>
+        <td>{{ reserva.horaFin }}</td>
+        <td>{{ reserva.idEstado.nombre }}</td>
       </tr>
     </tbody>
   </table>
 </template>
 
-<script>
-export default {
-  name: "TablaHistorial",
-  data() {
-    return {
-      filas: [
-        { salon: 'Dato 1.1', horaEntrada: 'Dato 1.2', horaSalida: 'Dato 1.3', estadoReserva: 'Dato 1.4' },
-        { salon: 'Dato 2.1', horaEntrada: 'Dato 2.2', horaSalida: 'Dato 2.3', estadoReserva: 'Dato 2.4' },
-        { salon: 'Dato 3.1', horaEntrada: 'Dato 3.2', horaSalida: 'Dato 3.3', estadoReserva: 'Dato 3.4' },
-        { salon: 'Dato 4.1', horaEntrada: 'Dato 4.2', horaSalida: 'Dato 4.3', estadoReserva: 'Dato 4.4' },
-      ]
-    };
-  }
-};
+<script setup>
+import { ref , onMounted} from 'vue';
+import axios from 'axios';
+
+    const reservas = ref([]);
+
+onMounted(async () => {
+  try {
+          const usuarioId = 1;
+          const response = await axios.get(`https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas/usuario/${usuarioId}`);
+          reservas.value = response.data.map((reserva) => {
+          const date = new Date(reserva.fecha);
+          const año = date.getFullYear();
+          const mes = String(date.getMonth() + 1).padStart(2, '0');
+          const dia = String(date.getDate()).padStart(2, '0');
+          return {
+            ...reserva,
+            fecha: `${año}-${mes}-${dia}`,
+            horaInicio: reserva.horaInicio.slice(0, 8),
+            horaFin: reserva.horaFin.slice(0, 8),
+          };
+        });
+    } catch (error) {
+      console.error("Error al obtener las reservas realizadas:", error)
+    }
+})
+
 </script>
 
 <style scoped>
