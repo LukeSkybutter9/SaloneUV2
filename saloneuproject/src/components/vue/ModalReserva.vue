@@ -1,7 +1,6 @@
 <template>
-    <el-dialog :visible="dialogTableVisible" v-model="dialogTableVisible" title="Disponibilidades" width="800px" @close="cerrarModal">
-        <p>Salón Seleccionado - {{ salon.nombreEdificio + " " + salon.nombre }}</p>
-        <!-- Lista de disponibilidades -->
+    <el-dialog class=" text-gray-950" :visible="dialogTableVisible" v-model="dialogTableVisible" title="Disponibilidades" width="800px" @close="cerrarModal">
+        <p class="pb-7" >Salón Seleccionado - {{ salon.nombreEdificio + " " + salon.nombre }}</p>
         <el-table :data="disponibilidades" style="width: 100%">
             <el-table-column prop="horaInicio" label="Hora de Inicio" width="150"></el-table-column>
             <el-table-column prop="horaFin" label="Hora de Fin" width="150"></el-table-column>
