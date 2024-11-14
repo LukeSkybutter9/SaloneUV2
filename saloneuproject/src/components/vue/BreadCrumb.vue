@@ -29,8 +29,8 @@
     width: 8rem;
     height: 1.7rem;
     background-color: #004a8727;
-    border: 1px solid #409eff;
-    color: #409eff;
+    border: 1px solid #0065b8;
+    color: #0065b8;
     border-radius: 3px;
 }
 

@@ -16,7 +16,6 @@
                 />
             </el-select>
         </el-form-item>
-        <!-- Contenedor de las tarjetas de salones -->
         <div class="salones gap-16">
             <SalonCard 
                 v-for="salon in filteredSalones" 

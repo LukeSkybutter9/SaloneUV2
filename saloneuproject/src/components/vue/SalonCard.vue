@@ -49,13 +49,13 @@ const emit = defineEmits(['abrirModal']);
 }
 
 .tituloCarta{
-    color: #409eff;
+    color: #0065b8;
 }
 
 .boton{
     background-color: #004a8742;
-    border: 1px solid #409eff;
-    color: #409eff;
+    border: 1px solid #0065b8;
+    color: #0065b8;
     border-radius: 5px;
 }
 
