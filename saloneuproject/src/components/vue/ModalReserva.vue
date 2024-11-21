@@ -46,6 +46,8 @@
     const año = hoy.getFullYear();
     const mes = String(hoy.getMonth() + 1).padStart(2, '0');  // Mes en formato 2 dígitos
     const dia = String(hoy.getDate()).padStart(2, '0');  // Día en formato 2 dígitos
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0'); 
+    const dia = String(hoy.getDate()).padStart(2, '0'); 
     
     return `${año}-${mes}-${dia}`;
     }
@@ -77,15 +79,18 @@ async function reservar(disponibilidad) {
         fecha: new Date().toISOString(),
         idDisponibilidad: disponibilidad.id
     }
-
     console.log("Datos de reserva:", reserva);
     try {
         const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', reserva)
         if(response){
+<<<<<<< Updated upstream
             ElMessage({
                 message: '¡Reserva realizada con éxito!',
                 type: 'success',
             })
+=======
+            console.log("Reserva realizada con éxito:", response.data);
+>>>>>>> Stashed changes
         }
         cerrarModal()
     } catch (error) {

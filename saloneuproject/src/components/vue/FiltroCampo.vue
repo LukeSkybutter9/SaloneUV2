@@ -25,8 +25,7 @@
             />
         </div>
     </el-form>
-
-    <ModalReserva :abrirModal="mostrarModal" :salon="salonSeleccionado" @cerrar-modal="mostrarModal = false" />
+    <ModalReserva :abrirModal="mostrarModal" :salon="salonSeleccionado" @cerrar-modal="mostrarModal = false"/>
 </template>
 
 <script setup>

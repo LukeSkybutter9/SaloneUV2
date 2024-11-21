@@ -20,7 +20,7 @@ const props = defineProps({
     salon: Object,
 })
 
-const emit = defineEmits(['abrirModal']);
+    const emit = defineEmits(['abrirModal']);
     function abrirModal() {
         emit('abrirModal', props.salon);
     }
