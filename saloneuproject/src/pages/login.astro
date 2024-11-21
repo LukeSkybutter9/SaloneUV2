@@ -8,15 +8,27 @@ import "../styles/tailwind.css"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saloneu</title>
+    <title>Saloneu Login</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/b/b0/Escudo_unimag_sm.png">
 </head>
 <body>
-    <div class="supercontainer">
-        <h1 class="text-4xl font-bold text-gray-800 md:text-5xl lg:text-6xl mt-4 mb-8">SaloneU</h1>
-        <div class="container">
+    <div class="supercontainer h-screen bg-gray-50">
+        <div class="container w-screen md:w-2/4">
+            <h1 class="text-4xl font-bold text-gray-800 md:text-5xl lg:text-6xl mt-4 mb-8">SaloneU</h1>
             <LoginForm client:load />
         </div>
     </div>
 </body>
 </html>
+
+<style scoped>
+    
+.supercontainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+</style>
 

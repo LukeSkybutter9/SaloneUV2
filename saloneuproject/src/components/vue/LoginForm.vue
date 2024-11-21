@@ -1,17 +1,15 @@
 <template>
-    <div class="login-container">
+    <div class="login-container ">
         <form @submit.prevent="handleLogin">
             <div class="campoForm">
-            <label for="email">Nombre de usuario:</label>
+            <label for="email">Correo Institucional (@unimagdalena.edu.co)</label>
             <input type="text" v-model="email" required />
             </div>
             <div class="campoForm">
-            <label for="password">Contraseña:</label>
+            <label for="password">Contraseña</label>
             <input type="password" v-model="password" required />
             </div>
-            <button type="submit" >Login</button>
-            <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-            <p v-if="successMessage" class="success">{{ successMessage }}</p>
+            <button class="mb-4" type="submit" >Login</button>
         </form>
     </div>
 </template>
@@ -20,11 +18,10 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { jwtDecode } from "jwt-decode";
+import { ElMessage } from 'element-plus';
 
 const email = ref('')
 const password = ref('')
-const errorMessage = ref(null)
-const successMessage = ref(null)
 
     const handleLogin = async () => {
         try {
@@ -34,18 +31,22 @@ const successMessage = ref(null)
             });
             
             if (response) {
+                
                 const token = response.data; 
                 const decodedToken = jwtDecode(token);
-                successMessage.value = 'Bienvenido ' + decodedToken.sub;
+                ElMessage({
+                message: '!Bienvenido '+ decodedToken.sub + '!',
+                type: 'success',
+                })
                 localStorage.setItem('token', token);
                 window.location.href= '/reservas';
             }
 
         } catch (error) { 
             if (error.response && error.response.status === 401) {
-                errorMessage.value = 'Usuario o contraseña incorrectos';
+                ElMessage.error('Oops, error al iniciar sesión');
             } else {
-                errorMessage.value = 'Error en el servidor';
+                ElMessage.error('Oops, error al iniciar sesión');
             }
         }
     }
@@ -82,12 +83,5 @@ button{
     color: white;
     cursor: pointer;
     border-radius: 5px;
-}
-.error {
-    color: red;
-}
-
-.succes{
-    color: green;
 }
 </style>
