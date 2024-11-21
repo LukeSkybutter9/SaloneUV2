@@ -22,17 +22,21 @@
 <script setup>
 import { ref , onMounted} from 'vue';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
     const reservas = ref([]);
 
 onMounted(async () => {
   try {
-          const usuarioId = 1;
+          const token = localStorage.getItem("token");
+          const decodedToken = jwtDecode(token);
+          const usuarioId = decodedToken.userId;
+          console.log(usuarioId)
           const response = await axios.get(`https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas/usuario/${usuarioId}`);
           reservas.value = response.data.map((reserva) => {
           const date = new Date(reserva.fecha);
           const año = date.getFullYear();
-          const mes = String(date.getMonth() + 1).padStart(2, '0');
+          const mes = String(date.getMonth() + 1).padStart(2, '0'); 
           const dia = String(date.getDate()).padStart(2, '0');
           return {
             ...reserva,

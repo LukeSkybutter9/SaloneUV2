@@ -22,10 +22,11 @@
     </el-dialog>
 </template>
 
-<script lang="ts" setup>
+<script setup>
     import { ref , watch, defineEmits} from 'vue'
     import axios from 'axios';
     import { ElButton, ElDialog, ElTable, ElTableColumn, ElMessage } from 'element-plus';
+    import { jwtDecode } from "jwt-decode";
     
     const dialogTableVisible = ref(false);
     const emit = defineEmits(['cerrar-modal']);
@@ -71,8 +72,11 @@ const obtenerDisponibilidad = async () => {
 }
 
 async function reservar(disponibilidad) {
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const usuarioId = decodedToken.userId;
     const reserva = {
-        idUsuario: 1, 
+        idUsuario: usuarioId, 
         idSalon: props.salon.id,
         fecha: new Date().toISOString(),
         idDisponibilidad: disponibilidad.id
@@ -81,21 +85,18 @@ async function reservar(disponibilidad) {
     try {
         const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', reserva)
         if(response){
-<<<<<<< Updated upstream
             ElMessage({
                 message: '¡Reserva realizada con éxito!',
                 type: 'success',
             })
-=======
             console.log("Reserva realizada con éxito:", response.data);
->>>>>>> Stashed changes
         }
         cerrarModal()
     } catch (error) {
         ElMessage.error('Oops, no se pudo realizar la reserva')
-    if (error.response && error.response.data) {
-        console.error("Detalles del error del servidor:", error.response.data);
-    }
+        if (error.response && error.response.data) {
+            console.error("Detalles del error del servidor:", error.response.data);
+        }
     }
 }
 

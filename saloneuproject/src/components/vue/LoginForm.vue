@@ -19,14 +19,12 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
-//import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const email = ref('')
 const password = ref('')
 const errorMessage = ref(null)
 const successMessage = ref(null)
-
-//const router = useRouter(); 
 
     const handleLogin = async () => {
         try {
@@ -37,9 +35,9 @@ const successMessage = ref(null)
             
             if (response) {
                 const token = response.data; 
-                //const decodedToken = jwtDecode(token);
+                const decodedToken = jwtDecode(token);
+                successMessage.value = 'Bienvenido ' + decodedToken.sub;
                 localStorage.setItem('token', token);
-                successMessage.value = 'Login successful';
                 window.location.href= '/reservas';
             }
 
