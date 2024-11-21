@@ -25,7 +25,7 @@
 <script lang="ts" setup>
     import { ref , watch, defineEmits} from 'vue'
     import axios from 'axios';
-    import { ElButton, ElDialog, ElTable, ElTableColumn} from 'element-plus';
+    import { ElButton, ElDialog, ElTable, ElTableColumn, ElMessage } from 'element-plus';
     
     const dialogTableVisible = ref(false);
     const emit = defineEmits(['cerrar-modal']);
@@ -81,10 +81,15 @@ async function reservar(disponibilidad) {
     console.log("Datos de reserva:", reserva);
     try {
         const response = await axios.post('https://salonesuservices-api-dhg9asefctasg4c0.eastus2-01.azurewebsites.net/api/reservas', reserva)
-        console.log("Reserva realizada con éxito:", response.data)
+        if(response){
+            ElMessage({
+                message: '¡Reserva realizada con éxito!',
+                type: 'success',
+            })
+        }
         cerrarModal()
     } catch (error) {
-        console.error("Error al realizar la reserva:", error);
+        ElMessage.error('Oops, no se pudo realizar la reserva')
     if (error.response && error.response.data) {
         console.error("Detalles del error del servidor:", error.response.data);
     }
